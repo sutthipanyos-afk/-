@@ -1,0 +1,6 @@
+{
+  "name": "สาขาเทคโนโลยีการศึกษา มหาวิทยาลัยศิลปากร (EdTech Silpakorn)",
+  "description": "เว็บไซต์ทางการสาขาเทคโนโลยีการศึกษา ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร วิทยาเขตพระราชวังสนามจันทร์",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
