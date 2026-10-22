@@ -40,10 +40,14 @@ export const ResearchSection: React.FC = () => {
   };
 
   return (
-    <section id="research" className="py-20 relative bg-[#F8FAFC] dark:bg-[#040D17] transition-colors duration-200 overflow-hidden">
+    <section id="research" className="py-24 relative bg-gradient-to-b from-[#05111E] via-[#081B30] to-[#040E19] text-white transition-colors duration-300 overflow-hidden">
       
+      {/* Decorative dot matrix overlay */}
+      <div className="absolute inset-0 bg-pattern-dots opacity-20 pointer-events-none" />
+
       {/* Soft Ambient Light */}
-      <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-gradient-to-l from-blue-500/5 via-cyan-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[500px] h-[500px] bg-gradient-to-l from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-gradient-to-tr from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -150,12 +154,36 @@ export const ResearchSection: React.FC = () => {
                       {item.titleEn}
                     </div>
 
-                    <div className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                      คณะผู้วิจัย: <span className="font-semibold text-slate-800 dark:text-slate-200">{item.authors.join(', ')}</span>
+                    {/* Authors with professor portraits */}
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">คณะผู้วิจัย:</span>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {item.authorAvatars && item.authorAvatars.length > 0 ? (
+                          item.authorAvatars.map((auth, aIdx) => (
+                            <div
+                              key={aIdx}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-white/[0.06] border border-slate-200/80 dark:border-white/10 text-xs shadow-sm"
+                            >
+                              <img
+                                src={auth.imageUrl}
+                                alt={auth.name}
+                                className="w-5 h-5 rounded-full object-cover ring-1 ring-cyan-400 shrink-0"
+                              />
+                              <span className="font-semibold text-slate-800 dark:text-slate-100 text-[11px]">
+                                {auth.name}
+                              </span>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                            {item.authors.join(', ')}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <div className="text-xs text-slate-500 dark:text-slate-400">
-                      ตีพิมพ์ใน: <span className="italic">{item.journal}</span>
+                      ตีพิมพ์ใน: <span className="italic font-medium text-slate-700 dark:text-slate-300">{item.journal}</span>
                     </div>
 
                     {/* Expandable abstract with layered backdrop */}

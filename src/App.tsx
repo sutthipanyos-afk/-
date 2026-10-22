@@ -214,7 +214,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#06121E] text-[#06121E] dark:text-[#E2E8F0] selection:bg-cyan-500 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-gradient-to-b from-[#F0F5FA] via-[#E8EFF7] to-[#F1F6FB] dark:from-[#040D1A] dark:via-[#07192C] dark:to-[#040E19] text-[#06121E] dark:text-[#E2E8F0] selection:bg-cyan-500 selection:text-white transition-colors duration-300">
       
       {/* Toast Notification Banner */}
       {toastNotification && (

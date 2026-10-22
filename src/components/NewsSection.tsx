@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { NEWS_DATA, NewsItem } from '../data/edtechData';
-import { Newspaper, Search, ArrowRight, Calendar } from 'lucide-react';
+import { Newspaper, Search, ArrowRight, Calendar, Camera, MapPin, Sparkles } from 'lucide-react';
 
 interface NewsSectionProps {
   onSelectNews: (news: NewsItem) => void;
@@ -31,10 +31,14 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectNews }) => {
   }, [selectedCategory, searchQuery]);
 
   return (
-    <section id="news" className="py-20 relative bg-white dark:bg-[#06121E] transition-colors duration-200 overflow-hidden">
+    <section id="news" className="py-24 relative bg-gradient-to-b from-[#040E19] via-[#081B30] to-[#040D17] text-white transition-colors duration-300 overflow-hidden">
       
+      {/* Decorative dot matrix overlay */}
+      <div className="absolute inset-0 bg-pattern-dots opacity-20 pointer-events-none" />
+
       {/* Soft Ambient Light */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-500/5 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-bl from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -96,9 +100,34 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectNews }) => {
               <div
                 key={item.id}
                 onClick={() => onSelectNews(item)}
-                className="group p-6 rounded-2xl bg-white/85 dark:bg-[#071626]/75 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 glow-card-hover shadow-sm hover:shadow-[0_16px_36px_rgba(6,182,212,0.12)] cursor-pointer flex flex-col justify-between"
+                className="group p-6 rounded-2xl bg-white/85 dark:bg-[#071626]/75 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 glow-card-hover shadow-sm hover:shadow-[0_16px_36px_rgba(6,182,212,0.12)] cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="space-y-3">
+                <div className="space-y-3.5">
+                  {/* Photo Preview Banner (if available) */}
+                  {item.image && (
+                    <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-900 border border-slate-200/60 dark:border-white/10">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                      
+                      {item.gallery && item.gallery.length > 0 && (
+                        <div className="absolute bottom-2.5 right-2.5 text-[11px] font-mono font-medium text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/15 flex items-center gap-1.5 shadow-sm">
+                          <Camera className="w-3.5 h-3.5 text-cyan-400" />
+                          <span>{item.gallery.length} ภาพถ่าย</span>
+                        </div>
+                      )}
+
+                      {item.featured && (
+                        <div className="absolute top-2.5 left-2.5 text-[10px] font-bold text-white bg-gradient-to-r from-amber-500 to-rose-500 px-2.5 py-1 rounded-lg shadow-sm">
+                          ★ ข่าวกิจกรรมเด่น
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* Unboxed metadata line */}
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-mono">
@@ -110,7 +139,7 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectNews }) => {
                       </span>
                     </div>
 
-                    {item.featured && (
+                    {!item.image && item.featured && (
                       <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
                         ★ ข่าวเด่น
                       </span>
@@ -121,17 +150,24 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectNews }) => {
                     {item.title}
                   </h3>
 
+                  {item.location && (
+                    <div className="flex items-start gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-light">
+                      <MapPin className="w-3.5 h-3.5 text-cyan-500 shrink-0 mt-0.5" />
+                      <span className="line-clamp-1">{item.location}</span>
+                    </div>
+                  )}
+
                   <p className="text-xs text-slate-600 dark:text-slate-300/90 leading-relaxed line-clamp-3">
                     {item.summary}
                   </p>
                 </div>
 
                 <div className="pt-4 mt-6 border-t border-slate-200/80 dark:border-white/5 flex items-center justify-between text-xs">
-                  <span className="text-slate-400 font-medium">
-                    ภาควิชาเทคโนโลยีการศึกษา
+                  <span className="text-slate-400 font-medium truncate max-w-[55%]">
+                    {item.organizer || 'ภาควิชาเทคโนโลยีการศึกษา'}
                   </span>
-                  <span className="inline-flex items-center gap-1 font-semibold text-cyan-600 dark:text-cyan-400 group-hover:translate-x-0.5 transition-transform">
-                    <span>อ่านรายละเอียด</span>
+                  <span className="inline-flex items-center gap-1 font-semibold text-cyan-600 dark:text-cyan-400 group-hover:translate-x-0.5 transition-transform shrink-0">
+                    <span>{item.gallery ? 'ดูภาพและเนื้อหาข่าว' : 'อ่านรายละเอียด'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>

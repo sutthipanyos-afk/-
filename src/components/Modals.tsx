@@ -16,6 +16,9 @@ import {
   Download,
   Copy,
   Check,
+  Camera,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { Course, FacultyMember, StudentWork, NewsItem, LearningLesson } from '../data/edtechData';
 
@@ -170,6 +173,8 @@ export const FacultyModal: React.FC<FacultyModalProps> = ({ faculty, onClose }) 
                 onError={(e) => {
                   if (faculty.fallbackImageUrl && e.currentTarget.src !== faculty.fallbackImageUrl) {
                     e.currentTarget.src = faculty.fallbackImageUrl;
+                  } else {
+                    e.currentTarget.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230F2942"/><circle cx="100" cy="75" r="38" fill="%2306B6D4" opacity="0.4"/><text x="100" y="85" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23FFFFFF" text-anchor="middle">${encodeURIComponent(faculty.nameTh.slice(0, 3))}</text><text x="100" y="160" font-family="sans-serif" font-size="12" fill="%2394A3B8" text-anchor="middle">อาจารย์ประจำภาควิชา</text></svg>`;
                   }
                 }}
                 className="w-full h-full object-cover object-center"
@@ -362,17 +367,33 @@ export const WorkModal: React.FC<WorkModalProps> = ({ work, onClose }) => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-[#071320] border border-slate-200/60 dark:border-white/5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-[#071320] border border-slate-200/60 dark:border-white/5">
             <div>
-              <div className="text-[11px] text-slate-400 font-medium">คณะผู้จัดทำ:</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white mt-0.5">
+              <div className="text-[11px] text-slate-400 font-medium">คณะผู้จัดทำ (Creators):</div>
+              <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white mt-1">
                 {work.creators.join(', ')}
               </div>
             </div>
             <div>
-              <div className="text-[11px] text-slate-400 font-medium">อาจารย์ที่ปรึกษา:</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white mt-0.5">
-                {work.advisor}
+              <div className="text-[11px] text-slate-400 font-medium">อาจารย์ที่ปรึกษาโครงงาน (Advisor):</div>
+              <div className="flex items-center gap-2.5 mt-1.5">
+                {work.advisorImageUrl && (
+                  <img
+                    src={work.advisorImageUrl}
+                    alt={work.advisor}
+                    className="w-10 h-10 rounded-full object-cover ring-2 ring-cyan-400/60 shadow-sm shrink-0"
+                  />
+                )}
+                <div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">
+                    {work.advisor}
+                  </div>
+                  {work.advisorRole && (
+                    <div className="text-[11px] text-cyan-600 dark:text-cyan-400 font-light">
+                      {work.advisorRole}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -421,7 +442,11 @@ interface NewsModalProps {
 
 export const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
   const [shared, setShared] = useState(false);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
   if (!news) return null;
+
+  const galleryImages = news.gallery && news.gallery.length > 0 ? news.gallery : (news.image ? [news.image] : []);
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -429,61 +454,202 @@ export const NewsModal: React.FC<NewsModalProps> = ({ news, onClose }) => {
     setTimeout(() => setShared(false), 2000);
   };
 
+  const handlePrevPhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActivePhotoIndex((prev) => (prev > 0 ? prev - 1 : galleryImages.length - 1));
+  };
+
+  const handleNextPhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActivePhotoIndex((prev) => (prev < galleryImages.length - 1 ? prev + 1 : 0));
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-in fade-in duration-150">
       <div
-        className="w-full max-w-2xl bg-white dark:bg-[#0B1F33] rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
+        className="w-full max-w-3xl bg-white dark:bg-[#071626] rounded-3xl shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-6 border-b border-slate-200 dark:border-white/10 flex items-start justify-between bg-slate-50 dark:bg-black/20">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400">
-              <span className="font-semibold text-[#2563EB]">{news.category}</span>
+        {/* Header */}
+        <div className="p-6 border-b border-slate-200 dark:border-white/10 flex items-start justify-between bg-gradient-to-r from-[#06121E] to-[#0A1E33] text-white">
+          <div className="space-y-2 max-w-[85%]">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-cyan-300">
+              <span className="font-semibold px-2 py-0.5 rounded bg-white/10">{news.category}</span>
               <span aria-hidden="true">·</span>
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{news.date}</span>
               </span>
+              {news.organizer && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span className="text-slate-300 truncate">{news.organizer}</span>
+                </>
+              )}
             </div>
-            <h3 className="text-xl font-bold text-[#0B1F33] dark:text-white leading-snug">
+            <h3 className="text-xl font-bold text-white leading-snug">
               {news.title}
             </h3>
+            {news.location && (
+              <div className="flex items-center gap-1.5 text-xs text-slate-300 font-light">
+                <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span>{news.location}</span>
+              </div>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-          <p className="font-medium text-slate-900 dark:text-slate-100 bg-[#F5F7FA] dark:bg-[#071320] p-4 rounded-xl border border-slate-200/60 dark:border-white/5">
-            {news.summary}
-          </p>
+        {/* Modal Body */}
+        <div className="p-6 overflow-y-auto space-y-6 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          
+          {/* Photo Gallery Viewer if available, otherwise Official Event Header */}
+          {galleryImages.length > 0 ? (
+            <div className="space-y-3">
+              {/* Main Active Photo */}
+              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-200/80 dark:border-white/10 shadow-md group">
+                <img
+                  src={galleryImages[activePhotoIndex]}
+                  alt={`${news.title} (${activePhotoIndex + 1})`}
+                  className="w-full h-full object-contain bg-black/90"
+                />
 
-          <div className="space-y-3 pt-2">
+                {/* Left/Right Navigation Arrows */}
+                {galleryImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={handlePrevPhoto}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all shadow-md focus:outline-none"
+                      title="ภาพก่อนหน้า"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={handleNextPhoto}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all shadow-md focus:outline-none"
+                      title="ภาพถัดไป"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                {/* Photo Counter Badge */}
+                <div className="absolute bottom-3 right-3 text-xs font-mono font-medium text-white bg-black/70 backdrop-blur-md px-3 py-1 rounded-xl border border-white/15 flex items-center gap-1.5 shadow-md">
+                  <Camera className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>ภาพที่ {activePhotoIndex + 1} จาก {galleryImages.length} ภาพ</span>
+                </div>
+              </div>
+
+              {/* Thumbnails Strip / Grid */}
+              {galleryImages.length > 1 && (
+                <div>
+                  <div className="text-[11px] font-semibold text-slate-400 mb-2 uppercase tracking-wide flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5 text-cyan-500" />
+                    <span>แกลเลอรีภาพถ่ายกิจกรรมทั้งหมด ({galleryImages.length} ภาพ):</span>
+                  </div>
+                  <div className="grid grid-cols-6 sm:grid-cols-9 gap-1.5 p-2 bg-slate-100/70 dark:bg-[#06121E]/60 rounded-2xl border border-slate-200/80 dark:border-white/5 overflow-hidden">
+                    {galleryImages.map((img, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActivePhotoIndex(idx)}
+                        className={`relative aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all ${
+                          activePhotoIndex === idx
+                            ? 'border-cyan-400 ring-2 ring-cyan-400/40 scale-105 z-10'
+                            : 'border-transparent opacity-70 hover:opacity-100 hover:border-slate-300'
+                        }`}
+                        title={`เลือกดูภาพที่ ${idx + 1}`}
+                      >
+                        <img
+                          src={img}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-900/10 via-cyan-900/10 to-teal-900/10 border border-cyan-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div className="space-y-1">
+                <div className="font-bold text-[#06121E] dark:text-cyan-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                  <span>กิจกรรมทางการ ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร</span>
+                </div>
+                <div className="text-slate-500 dark:text-slate-400">
+                  {news.date} · {news.location || 'มหาวิทยาลัยศิลปากร พระราชวังสนามจันทร์'}
+                </div>
+              </div>
+              {news.sourceUrl && (
+                <a
+                  href={news.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white font-semibold shadow-sm hover:opacity-95 shrink-0"
+                >
+                  <span>ดูอัลบั้มภาพถ่ายต้นฉบับบน Facebook</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* News Summary Banner */}
+          <div className="p-4 rounded-2xl bg-cyan-50/60 dark:bg-cyan-950/20 border border-cyan-200/60 dark:border-cyan-800/40 text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
+            {news.summary}
+          </div>
+
+          {/* News Content Paragraphs */}
+          <div className="space-y-3.5 text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
             {news.content.map((p, idx) => (
-              <p key={idx}>{p}</p>
+              <p key={idx} className="leading-relaxed">
+                {p}
+              </p>
             ))}
           </div>
 
-          <div className="pt-4 border-t border-slate-200 dark:border-white/10 text-xs text-slate-500">
-            แหล่งที่มา: ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร วิทยาเขตพระราชวังสนามจันทร์
+          {/* Source Attribution & Official Link */}
+          <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div>
+              <span>แหล่งที่มา: </span>
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
+                {news.organizer || 'ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร'}
+              </span>
+            </div>
+
+            {news.sourceUrl && (
+              <a
+                href={news.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400 hover:underline font-semibold"
+              >
+                <span>{news.sourceUrl.includes('facebook') ? 'ดูโพสต์ต้นฉบับบน Facebook ภาควิชาฯ' : 'ดูข่าวต้นฉบับ (educ.su.ac.th)'}</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
           </div>
         </div>
 
+        {/* Modal Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/20 flex items-center justify-between text-xs">
           <button
             onClick={handleShare}
-            className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 hover:text-[#00A99D]"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-300 hover:bg-slate-200 dark:hover:bg-white/5 transition-all"
           >
-            <Share2 className="w-4 h-4" />
-            <span>{shared ? 'คัดลอกลิงก์แล้ว' : 'แชร์ข่าวสาร'}</span>
+            <Share2 className="w-4 h-4 text-cyan-500" />
+            <span>{shared ? 'คัดลอกลิงก์แล้ว' : 'แชร์ข่าวสารนี้'}</span>
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-[#0B1F33] dark:bg-[#2563EB] text-white font-medium hover:opacity-90"
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] text-white font-semibold hover:opacity-90 shadow-sm transition-all"
           >
             ปิดหน้าต่าง
           </button>

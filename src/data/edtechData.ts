@@ -38,6 +38,8 @@ export interface StudentWork {
   year: string;
   creators: string[];
   advisor: string;
+  advisorImageUrl?: string;
+  advisorRole?: string;
   summary: string;
   technologies: string[];
   demoUrl?: string;
@@ -50,6 +52,7 @@ export interface ResearchItem {
   titleTh: string;
   titleEn: string;
   authors: string[];
+  authorAvatars?: { name: string; imageUrl: string }[];
   year: string;
   journal: string;
   area: 'AI & Learning Analytics' | 'Instructional Design' | 'Virtual & Immersive Media' | 'MOOC & Digital Learning' | 'Pedagogical Innovation';
@@ -65,6 +68,11 @@ export interface NewsItem {
   summary: string;
   content: string[];
   featured?: boolean;
+  image?: string;
+  gallery?: string[];
+  location?: string;
+  organizer?: string;
+  sourceUrl?: string;
 }
 
 export interface LearningLesson {
@@ -701,6 +709,21 @@ export const COURSES_DATA: Course[] = [
 
 export const STUDENT_WORKS_DATA: StudentWork[] = [
   {
+    id: 'work-4spb-symposium-2026',
+    titleTh: 'ออกบูธจัดแสดงและนำเสนอผลงานด้านเทคโนโลยีการศึกษา ในงาน 4SPB Symposium 2026 “ศาสตร์ศิลป์วิชาการ สืบสาน สร้างสรรค์ สพม.สุพรรณบุรี”',
+    titleEn: 'Educational Technology Innovation Showcase & Exhibition Booth at 4SPB Symposium 2026',
+    category: 'Instructional Media',
+    year: '2569',
+    creators: ['ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร', 'คณาจารย์และนักศึกษา'],
+    advisor: 'ผศ.ดร.สิทธิชัย ลายเสมา (หัวหน้าภาควิชา)',
+    advisorImageUrl: '/src/assets/images/faculty/sitthichai.jpg',
+    advisorRole: 'หัวหน้าภาควิชาเทคโนโลยีการศึกษา',
+    summary: 'วันจันทร์ที่ 31 สิงหาคม 2569 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร ร่วมออกบูธจัดแสดงและนำเสนอผลงานด้านเทคโนโลยีการศึกษา ในงาน 4SPB Symposium 2026 ภายใต้แนวคิด “ศาสตร์ศิลป์วิชาการ สืบสาน สร้างสรรค์ สพม.สุพรรณบุรี” ณ โรงเรียนกรรณสูตศึกษาลัย จังหวัดสุพรรณบุรี ภายในบูธพบกับการนำเสนอผลงานและกิจกรรมที่สะท้อนการเรียนรู้ด้าน เทคโนโลยี สื่อ นวัตกรรม และการออกแบบเพื่อการศึกษา พร้อมพูดคุยและทำความรู้จักกับการเรียนการสอนของภาควิชาเทคโนโลยีการศึกษา',
+    technologies: ['สื่อนวัตกรรม', 'การออกแบบเพื่อการศึกษา', 'เทคโนโลยีดิจิทัล', 'Interactive Exhibition', 'EdTech Showcase'],
+    awards: 'ร่วมออกบูธนำเสนอผลงานวิชาการ 4SPB Symposium 2026 ณ รร.กรรณสูตศึกษาลัย จ.สุพรรณบุรี',
+    image: '/src/assets/images/symposium_4spb_booth_1791379580681.jpg'
+  },
+  {
     id: 'work-1',
     titleTh: 'ระบบการเรียนรู้เสมือนจริง (VR) จำลองสรีรวิทยาและกายวิภาคศาสตร์ระบบไหลเวียนโลหิต',
     titleEn: 'Immersive VR Human Circulatory Anatomy Learning Experience',
@@ -708,6 +731,8 @@ export const STUDENT_WORKS_DATA: StudentWork[] = [
     year: '2566',
     creators: ['นายกิตติคุณ พัชราภา', 'นางสาวณิชกานต์ วงษ์สวรรค์'],
     advisor: 'รศ.ดร.อนิรุทธ์ สติมั่น',
+    advisorImageUrl: '/src/assets/images/faculty/anirut.jpg',
+    advisorRole: 'อาจารย์ประจำภาควิชา (ผู้เชี่ยวชาญสภาพแวดล้อมเสมือนจริง VR/AR)',
     summary: 'นวัตกรรมสื่อการเรียนรู้จำลองแบบโลกเสมือน 3 มิติ สำหรับนักเรียนระดับมัธยมศึกษาตอนปลาย ให้ผู้เรียนสามารถเดินทางเข้าไปสำรวจภายในห้องหัวใจ หลอดเลือดแดง และกระบวนการแลกเปลี่ยนก๊าซในปอดแบบเรียลไทม์ พร้อมระบบประเมินความเข้าใจระหว่างการสำรวจ',
     technologies: ['Unity 3D', 'Meta Quest SDK', 'Blender', 'C# Scripting', 'Spatial Audio'],
     awards: 'รางวัลดีเด่น นิทรรศการผลงานนวัตกรรมสื่อการศึกษานานาชาติ 2566',
@@ -722,10 +747,12 @@ export const STUDENT_WORKS_DATA: StudentWork[] = [
     year: '2566',
     creators: ['นายวรวิชย์ ศรีสวัสดิ์', 'นางสาวพิมพ์ชนก รัตนโกสินทร์'],
     advisor: 'รศ.ดร.เอกนฤน บางท่าไม้',
+    advisorImageUrl: '/src/assets/images/faculty/ekanarin.jpg',
+    advisorRole: 'ผู้อำนวยการศูนย์นวัตกรรมการศึกษา (SEIC) ม.ศิลปากร',
     summary: 'แอปพลิเคชันท่องเที่ยวเชิงการศึกษา บูรณาการเทคโนโลยีระบุพิกัดและโมเดล AR 3 มิติ ฉายภาพพระปฐมเจดีย์ในแต่ละยุคสมัยตั้งแต่ทวารวดีถึงรัตนโกสินทร์ เพื่อใช้จัดการเรียนรู้นอกห้องเรียนสำหรับเยาวชนและนักท่องเที่ยว',
     technologies: ['AR Foundation', 'Flutter', 'Firebase', 'Photogrammetry 3D'],
     awards: 'รางวัลชนะเลิศ นวัตกรรมซอฟต์พาวเวอร์เพื่อการเรียนรู้ มหาวิทยาลัยศิลปากร 2567',
-    image: '/src/assets/images/hero_silpakorn_edtech_1790939637201.jpg'
+    image: '/src/assets/images/flower_and_feeling/photo_06.jpg'
   },
   {
     id: 'work-3',
@@ -735,6 +762,8 @@ export const STUDENT_WORKS_DATA: StudentWork[] = [
     year: '2565',
     creators: ['นายธนภัทร สุวรรณโชติ', 'นางสาวกนกวรรณ จิตรประเสริฐ'],
     advisor: 'รศ.ดร.ฐาปนีย์ ธรรมเมธา',
+    advisorImageUrl: '/src/assets/images/faculty/thapanee.jpg',
+    advisorRole: 'อาจารย์ประจำภาควิชา (ผู้เชี่ยวชาญ E-learning & Thai MOOC)',
     summary: 'เว็บแอปพลิเคชันบทเรียนขนาดสั้น (Microlearning) ที่ปรับแต่งตามความเร็วในการเรียนรู้ของผู้ใช้ พร้อมระบบควิซแบบ Adaptive และใบรับรองดิจิทัลแบบ Open Badge ตามมาตรฐานสากล',
     technologies: ['React', 'Tailwind CSS', 'Node.js', 'PostgreSQL', 'SCORM / xAPI'],
     awards: 'ผลงานโครงงานดีเด่น สาขาเทคโนโลยีการศึกษา ประจำปีการศึกษา 2565',
@@ -747,11 +776,13 @@ export const STUDENT_WORKS_DATA: StudentWork[] = [
     category: 'Edutainment & Motion',
     year: '2566',
     creators: ['นางสาวศุภิสรา แก้วมณี', 'นายชลทิศ พัฒนาพงษ์'],
-    advisor: 'อาจารย์เอกชัย ภูมิระรื่น',
+    advisor: 'ผศ.ดร.วรวุฒิ มั่นสุขผล',
+    advisorImageUrl: '/src/assets/images/faculty/worawut.jpg',
+    advisorRole: 'อาจารย์ประจำภาควิชา (ผู้เชี่ยวชาญการผลิตสื่อมัลติมีเดียและ AR)',
     summary: 'ชุดสื่อแอนิเมชันความยาว 5 ตอน อธิบายฟิสิกส์คลื่นเสียง ความถี่ เดซิเบล และกลไกของแก้วหูมนุษย์ด้วยลายเส้นโมเดิร์นสดใสและการพากย์เสียงที่เข้าใจง่ายสำหรับเด็กและบุคคลทั่วไป',
     technologies: ['Adobe After Effects', 'Adobe Illustrator', 'Cinema 4D', 'Pro Tools'],
     awards: 'รางวัลชมเชย การประกวดสื่อสร้างสรรค์เพื่อการเรียนรู้วิทยาศาสตร์ระดับอุดมศึกษา',
-    image: '/src/assets/images/student_work_interactive_vr_1790939657670.jpg'
+    image: '/src/assets/images/flower_and_feeling/photo_14.jpg'
   },
   {
     id: 'work-5',
@@ -761,10 +792,42 @@ export const STUDENT_WORKS_DATA: StudentWork[] = [
     year: '2565',
     creators: ['นายพงศกร เลิศวิจิตร', 'นายอานนท์ เพชรประดับ'],
     advisor: 'รศ.ดร.ศิวนิต อรรถวุฒิกุล',
+    advisorImageUrl: '/src/assets/images/faculty/siwanit.jpg',
+    advisorRole: 'ประธานคณะกรรมการบริหารหลักสูตร ศษ.ม. เทคโนโลยีการศึกษา',
     summary: 'บอร์ดเกมการศึกษาและเว็บแอปพลิเคชันเล่นร่วมกัน (Companion App) สำหรับจำลองห่วงโซ่อาหาร การจัดสรรทรัพยากร และผลกระทบจากกิจกรรมมนุษย์ต่อระบบนิเวศทางธรรมชาติ',
     technologies: ['Game Design Framework', 'TypeScript', 'WebSockets', 'Canvas API'],
     awards: 'รางวัลดีเด่น โครงงานบูรณาการวิชาชีพเทคโนโลยีการศึกษา',
-    image: '/src/assets/images/learning_hub_course_thumb_1790939670511.jpg'
+    image: '/src/assets/images/infocomm/infocomm_expo_3.jpg'
+  },
+  {
+    id: 'work-6',
+    titleTh: 'ระบบประเมินผลการเรียนรู้และรูบริกส์ดิจิทัลแบบเรียลไทม์ (Smart Assessment Rubrics Platform)',
+    titleEn: 'Real-time Digital Assessment & Rubrics Platform for Active Classrooms',
+    category: 'Web & App',
+    year: '2566',
+    creators: ['นายธนกร สุขเจริญ', 'นางสาวปิยวรรณ รัตนโชติ'],
+    advisor: 'รศ.ดร.น้ำมนต์ เรืองฤทธิ์',
+    advisorImageUrl: '/src/assets/images/faculty/nammon.jpg',
+    advisorRole: 'อาจารย์ผู้รับผิดชอบหลักสูตร ศษ.ม. และ ปร.ด. เทคโนโลยีการศึกษา',
+    summary: 'เว็บแอปพลิเคชันเกณฑ์การประเมินผลการเรียนรู้ตามสภาพจริง (Authentic Assessment) บนคลาวด์ พร้อมระบบวิเคราะห์ความก้าวหน้ารายบุคคลและแดชบอร์ดสะท้อนผลสัมฤทธิ์ตามมาตรฐาน',
+    technologies: ['React', 'Tailwind CSS', 'Learning Analytics Engine', 'Data Visualization'],
+    awards: 'รางวัลเหรียญทอง นวัตกรรมการประเมินผลการศึกษา มหาวิทยาลัยศิลปากร 2566',
+    image: '/src/assets/images/flower_and_feeling/photo_03.jpg'
+  },
+  {
+    id: 'work-7',
+    titleTh: 'Flower and Feeling: นิทรรศการมัลติมีเดียปฏิสัมพันธ์สะท้อนสุนทรียศาสตร์และการเรียนรู้ทางอารมณ์',
+    titleEn: 'Flower and Feeling: Interactive Multimedia Aesthetics & Emotional Pedagogy',
+    category: 'Instructional Media',
+    year: '2568',
+    creators: ['นักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์'],
+    advisor: 'คณาจารย์ภาควิชาเทคโนโลยีการศึกษา',
+    advisorImageUrl: '/src/assets/images/faculty/sitthichai.jpg',
+    advisorRole: 'คณะทำงานและคณาจารย์ผู้ดูแลโครงงานประจำภาควิชา',
+    summary: 'นิทรรศการสื่อปฏิสัมพันธ์จัดโดยนักศึกษาชั้นปีที่ 3 ผสานเทคโนโลยีแสง สี เสียง และศิลปะดอกไม้ เพื่อถ่ายทอดสุนทรียศาสตร์และกระบวนการเรียนรู้สู่ชุมชนอย่างสร้างสรรค์',
+    technologies: ['Interactive Projection', 'Physical Computing', 'Spatial Sound', 'Creative Pedagogy'],
+    awards: 'รางวัลนิทรรศการบูรณาการวิชาการดีเด่น คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร 2568',
+    image: '/src/assets/images/flower_and_feeling/cover.jpg'
   }
 ];
 
@@ -774,6 +837,9 @@ export const RESEARCH_DATA: ResearchItem[] = [
     titleTh: 'การพัฒนาการเรียนรู้จากการปฏิบัติเพื่อเสริมสร้างความสามารถในการออกแบบเว็บสำหรับการฝึกอบรมออนไลน์',
     titleEn: 'Development of Action Learning to Enhance Competencies in Web Design for Online Training',
     authors: ['รศ.ดร.ศิวนิต อรรถวุฒิกุล'],
+    authorAvatars: [
+      { name: 'รศ.ดร.ศิวนิต อรรถวุฒิกุล', imageUrl: '/src/assets/images/faculty/siwanit.jpg' }
+    ],
     year: '2565',
     journal: 'วารสารศึกษาศาสตร์ มหาวิทยาลัยศิลปากร (Silpakorn Educational Research Journal)',
     area: 'Instructional Design',
@@ -785,6 +851,9 @@ export const RESEARCH_DATA: ResearchItem[] = [
     titleTh: 'การพัฒนารูปแบบสภาพแวดล้อมการเรียนรู้เสมือนจริงเพื่อเสริมสร้างทักษะการคิดขั้นสูงในยุคดิจิทัล',
     titleEn: 'Development of a Virtual Learning Environment Model to Enhance Higher-Order Thinking Skills',
     authors: ['รศ.ดร.อนิรุทธ์ สติมั่น', 'และคณะ'],
+    authorAvatars: [
+      { name: 'รศ.ดร.อนิรุทธ์ สติมั่น', imageUrl: '/src/assets/images/faculty/anirut.jpg' }
+    ],
     year: '2566',
     journal: 'Journal of Educational Technology and Innovation Studies',
     area: 'Virtual & Immersive Media',
@@ -796,6 +865,11 @@ export const RESEARCH_DATA: ResearchItem[] = [
     titleTh: 'การประเมินหลักสูตรศึกษาศาสตรมหาบัณฑิต สาขาวิชาเทคโนโลยีการศึกษา มหาวิทยาลัยศิลปากร',
     titleEn: 'Curriculum Evaluation of Master of Education Program in Educational Technology, Silpakorn University',
     authors: ['รศ.ดร.น้ำมนต์ เรืองฤทธิ์', 'รศ.ดร.ศิวนิต อรรถวุฒิกุล', 'รศ.ดร.เอกนฤน บางท่าไม้'],
+    authorAvatars: [
+      { name: 'รศ.ดร.น้ำมนต์ เรืองฤทธิ์', imageUrl: '/src/assets/images/faculty/nammon.jpg' },
+      { name: 'รศ.ดร.ศิวนิต อรรถวุฒิกุล', imageUrl: '/src/assets/images/faculty/siwanit.jpg' },
+      { name: 'รศ.ดร.เอกนฤน บางท่าไม้', imageUrl: '/src/assets/images/faculty/ekanarin.jpg' }
+    ],
     year: '2566',
     journal: 'วารสารสมาคมเทคโนโลยีและสื่อสารการศึกษา',
     area: 'Pedagogical Innovation',
@@ -807,6 +881,9 @@ export const RESEARCH_DATA: ResearchItem[] = [
     titleTh: 'การสังเคราะห์และประยุกต์ใช้ปัญญาประดิษฐ์เพื่อการประเมินสมรรถนะอาจารย์ตามกรอบ Thailand-PSF',
     titleEn: 'Synthesis and Application of Artificial Intelligence for Teacher Competency Assessment in Thailand-PSF',
     authors: ['รศ.ดร.เอกนฤน บางท่าไม้'],
+    authorAvatars: [
+      { name: 'รศ.ดร.เอกนฤน บางท่าไม้', imageUrl: '/src/assets/images/faculty/ekanarin.jpg' }
+    ],
     year: '2567',
     journal: 'Silpakorn University Innovation Forum',
     area: 'AI & Learning Analytics',
@@ -818,15 +895,161 @@ export const RESEARCH_DATA: ResearchItem[] = [
     titleTh: 'แนวทางการออกแบบรายวิชาออนไลน์ระดับชาติบนระบบ Thai MOOC เพื่อส่งเสริมการเรียนรู้ตลอดชีวิต',
     titleEn: 'National Online Course Design Guidelines on Thai MOOC Platform for Lifelong Learning',
     authors: ['รศ.ดร.ฐาปนีย์ ธรรมเมธา'],
+    authorAvatars: [
+      { name: 'รศ.ดร.ฐาปนีย์ ธรรมเมธา', imageUrl: '/src/assets/images/faculty/thapanee.jpg' }
+    ],
     year: '2565',
     journal: 'Thailand Cyber University Journal of E-learning',
     area: 'MOOC & Digital Learning',
     abstract: 'ถอดบทเรียนจากการพัฒนาและบริหารจัดการระบบ Thai MOOC วิเคราะห์ปัจจัยที่ส่งผลต่ออัตราการสำเร็จการศึกษา (Completion Rate) ของผู้เรียนในรายวิชาออนไลน์แบบเปิดกว้าง และนำเสนอกรอบมาตรฐานการออกแบบปฏิสัมพันธ์ (Interaction Design Framework) สำหรับผู้เรียนวัยผู้ใหญ่',
     doi: '10.14456/tcuj.2022.09'
+  },
+  {
+    id: 'res-6',
+    titleTh: 'การพัฒนาระบบการเรียนรู้ดิจิทัลอัจฉริยะและการประเมินผลสัมฤทธิ์ตามกรอบสมรรถนะวิชาชีพครู',
+    titleEn: 'Development of Smart Digital Learning Systems and Competency-based Achievement Assessment for Teachers',
+    authors: ['ผศ.ดร.สิทธิชัย ลายเสมา'],
+    authorAvatars: [
+      { name: 'ผศ.ดร.สิทธิชัย ลายเสมา', imageUrl: '/src/assets/images/faculty/sitthichai.jpg' }
+    ],
+    year: '2567',
+    journal: 'วารสารศึกษาศาสตร์ มหาวิทยาลัยศิลปากร (Silpakorn Educational Research Journal)',
+    area: 'Instructional Design',
+    abstract: 'การวิจัยและออกแบบสถาปัตยกรรมระบบการเรียนรู้ดิจิทัล (Digital Learning Architecture) บูรณาการระบบคลังข้อมูลการเรียนรู้และเครื่องมือวัดประเมินผลแบบเรียลไทม์เพื่อพัฒนาสมรรถนะครูยุคดิจิทัล',
+    doi: '10.14456/serj.2024.12'
+  },
+  {
+    id: 'res-7',
+    titleTh: 'การประยุกต์ใช้เทคโนโลยีความจริงเสริม (Augmented Reality) ในการสร้างสรรค์สื่อนวัตกรรมปฏิสัมพันธ์สำหรับการเรียนรู้เชิงรุก',
+    titleEn: 'Application of Augmented Reality in Creative Interactive Media for Active Learning Environments',
+    authors: ['ผศ.ดร.วรวุฒิ มั่นสุขผล'],
+    authorAvatars: [
+      { name: 'ผศ.ดร.วรวุฒิ มั่นสุขผล', imageUrl: '/src/assets/images/faculty/worawut.jpg' }
+    ],
+    year: '2566',
+    journal: 'Journal of Educational Innovation and Technology',
+    area: 'Virtual & Immersive Media',
+    abstract: 'การวิจัยเชิงทดลองเพื่อศึกษาประสิทธิผลของการใช้สื่อ AR ในการกระตุ้นการมีส่วนร่วมและการจดจำมโนทัศน์เชิงนามธรรมของผู้เรียน ผลการทดสอบแสดงให้เห็นว่าผู้เรียนมีระดับความเข้าใจและผลสัมฤทธิ์สูงขึ้นอย่างมีนัยสำคัญ',
+    doi: '10.14456/jeit.2023.15'
   }
 ];
 
 export const NEWS_DATA: NewsItem[] = [
+  {
+    id: 'news-wai-kru-2569',
+    title: 'พิธีไหว้ครู ภาควิชาเทคโนโลยีการศึกษา ประจำปีการศึกษา 2569 “น้อมบูชาพระคุณครู สืบสายคุณค่าวันไหว้ครู สู่การเรียนรู้อย่างยั่งยืน”',
+    category: 'Events',
+    date: '6 ส.ค. 2569',
+    summary: 'คณาจารย์และนักศึกษาภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร จัดพิธีไหว้ครู ประจำปีการศึกษา 2569 เพื่อแสดงความกตัญญูกตเวที น้อมรำลึกถึงพระคุณของครูอาจารย์ผู้ประสิทธิ์ประสาทวิชาความรู้ และสืบสานประเพณีอันดีงามของไทย',
+    location: 'ห้องไทยประกันชีวิต อาคารโสมสวลี คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร พระราชวังสนามจันทร์',
+    organizer: 'คณาจารย์และนักศึกษาภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร',
+    sourceUrl: 'https://www.facebook.com/EducationalTechnologySilpakornUniversity',
+    image: '/src/assets/images/wai_kru_2569/photo_01.jpg',
+    gallery: [
+      '/src/assets/images/wai_kru_2569/photo_01.jpg',
+      '/src/assets/images/wai_kru_2569/photo_02.jpg',
+      '/src/assets/images/wai_kru_2569/photo_03.jpg',
+      '/src/assets/images/wai_kru_2569/photo_04.jpg',
+      '/src/assets/images/wai_kru_2569/photo_05.jpg',
+      '/src/assets/images/wai_kru_2569/photo_06.jpg',
+      '/src/assets/images/wai_kru_2569/photo_07.jpg',
+      '/src/assets/images/wai_kru_2569/photo_08.jpg',
+      '/src/assets/images/wai_kru_2569/photo_09.jpg',
+      '/src/assets/images/wai_kru_2569/photo_10.jpg',
+      '/src/assets/images/wai_kru_2569/photo_11.jpg',
+      '/src/assets/images/wai_kru_2569/photo_12.jpg',
+      '/src/assets/images/wai_kru_2569/photo_13.jpg',
+      '/src/assets/images/wai_kru_2569/photo_14.jpg',
+      '/src/assets/images/wai_kru_2569/photo_15.jpg',
+      '/src/assets/images/wai_kru_2569/photo_20.jpg',
+      '/src/assets/images/wai_kru_2569/photo_25.jpg',
+      '/src/assets/images/wai_kru_2569/photo_30.jpg',
+      '/src/assets/images/wai_kru_2569/photo_35.jpg',
+      '/src/assets/images/wai_kru_2569/photo_40.jpg',
+    ],
+    content: [
+      'เมื่อวันพฤหัสบดีที่ 6 สิงหาคม 2569 คณาจารย์และนักศึกษาภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร จัดพิธีไหว้ครู ประจำปีการศึกษา 2569 เพื่อแสดงความกตัญญูกตเวที น้อมรำลึกถึงพระคุณของครูอาจารย์ผู้ประสิทธิ์ประสาทวิชาความรู้ และสืบสานประเพณีอันดีงามของไทย',
+      'ภายในงาน นักศึกษาได้นำพานดอกไม้ธูปเทียนเข้าถวายแด่คณาจารย์ ท่ามกลางบรรยากาศที่เปี่ยมด้วยความอบอุ่น ความเคารพ และความผูกพันระหว่างครูกับศิษย์ ซึ่งนับเป็นการเริ่มต้นปีการศึกษาใหม่ด้วยความเป็นสิริมงคล พร้อมสร้างแรงบันดาลใจในการมุ่งมั่นศึกษาเล่าเรียนและพัฒนาตนเองให้เป็นบัณฑิตที่มีคุณภาพทั้งด้านความรู้ คุณธรรม และจริยธรรม',
+      'โดยในพิธีไหว้ครูปีนี้ นักศึกษาภาควิชาเทคโนโลยีการศึกษาได้ร่วมกันสร้างสรรค์ทั้งพานดอกไม้ตามประเพณีอันประณีตงดงาม และพานความคิดสร้างสรรค์ที่สะท้อนอัตลักษณ์ของชาวเทคโนฯ การศึกษา เช่น พานสเลทฟิล์มและไอคอนโปรแกรมดิจิทัลมีเดีย รวมถึงพานมาสคอตการเรียนรู้ สะท้อนถึงการผสมผสานศาสตร์ทางศิลปะ เทคโนโลยี และจิตวิญญาณความเป็นครูได้อย่างสร้างสรรค์',
+      'ขอให้นักศึกษาทุกคนประสบความสำเร็จในการศึกษา มีความสุขกับการเรียนรู้ และเติบโตเป็นกำลังสำคัญของสังคมต่อไป 🌼'
+    ],
+    featured: true
+  },
+  {
+    id: 'news-infocomm-asia-2026',
+    title: 'เปิดโลกแห่งเทคโนโลยีและนวัตกรรมระดับนานาชาติ: นศ.เทคโนโลยีการศึกษา ศิลปากร ศึกษาดูงานและอบรมในงาน InfoComm Asia 2026',
+    category: 'Academic',
+    date: '17 ก.ค. 2569',
+    summary: 'นักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร นำโดย รศ.ดร.อนิรุทธ์ สติมั่น เข้าร่วมศึกษาดูงานและอบรมในงาน InfoComm Asia 2026 ณ ศูนย์การประชุมแห่งชาติสิริกิติ์ สัมผัสนวัตกรรม Professional AV, AI และโซลูชันดิจิทัลชั้นนำระดับเอเชียแปซิฟิก',
+    location: 'ศูนย์การประชุมแห่งชาติสิริกิติ์ (QSNCC) กรุงเทพมหานคร',
+    organizer: 'ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร',
+    sourceUrl: 'https://www.facebook.com/EducationalTechnologySilpakornUniversity',
+    image: '/src/assets/images/infocomm/infocomm_expo_1.jpg',
+    gallery: [
+      '/src/assets/images/infocomm/infocomm_expo_1.jpg',
+      '/src/assets/images/infocomm/infocomm_expo_2.jpg',
+      '/src/assets/images/infocomm/infocomm_expo_3.jpg',
+    ],
+    content: [
+      'เปิดโลกแห่งเทคโนโลยีและนวัตกรรมระดับนานาชาติ: เมื่อวันที่ 17 กรกฎาคม 2569 นักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร ได้เข้าร่วม ศึกษาดูงานและอบรม ภายในงาน InfoComm Asia 2026 ณ ศูนย์การประชุมแห่งชาติสิริกิติ์ กรุงเทพมหานคร ซึ่งเป็นงานแสดงเทคโนโลยีด้าน Professional AV และโซลูชันดิจิทัลชั้นนำของภูมิภาคเอเชียแปซิฟิก',
+      'การศึกษาดูงานครั้งนี้นำโดย รองศาสตราจารย์ ดร.อนิรุทธ์ สติมั่น เพื่อเปิดโอกาสให้นักศึกษาได้เรียนรู้เทคโนโลยีล่าสุด แลกเปลี่ยนประสบการณ์กับผู้เชี่ยวชาญจากหลากหลายประเทศ และเห็นการประยุกต์ใช้เทคโนโลยีด้านภาพและเสียง ระบบอัจฉริยะ ปัญญาประดิษฐ์ (AI) และนวัตกรรมดิจิทัลที่สามารถนำมาต่อยอดในการออกแบบการเรียนรู้และพัฒนางานด้านเทคโนโลยีการศึกษาในอนาคต',
+      'ภาควิชาเทคโนโลยีการศึกษา มุ่งมั่นส่งเสริมการเรียนรู้จากประสบการณ์จริง เพื่อให้นักศึกษาก้าวทันเทคโนโลยีและพร้อมเป็นนักเทคโนโลยีการศึกษาในยุคดิจิทัลอย่างแท้จริง'
+    ],
+    featured: true
+  },
+  {
+    id: 'news-flower-and-feeling',
+    title: 'พิธีเปิดนิทรรศการ “Flower and Feeling” จัดโดยนักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ ม.ศิลปากร',
+    category: 'Events',
+    date: '18 มี.ค. 2568',
+    summary: 'อาจารย์เอกชัย ภูมิระรื่น รองคณบดีฝ่ายกิจการพิเศษและพันธกิจเพื่อสังคม เป็นประธานในพิธีเปิดนิทรรศการ “Flower and Feeling” เชื่อมโยงความงามของดอกไม้กับความรู้สึกและวัฒนธรรมมนุษย์ ผ่านหลากหลายมิติทางศิลปะและสื่อนวัตกรรมการศึกษา',
+    location: 'ห้อง ศษ2102 อาคารศึกษาศาสตร์ 2 คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร พระราชวังสนามจันทร์',
+    organizer: 'นักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร',
+    sourceUrl: 'https://educ.su.ac.th/news-7886/',
+    image: '/src/assets/images/flower_and_feeling/photo_08.jpg',
+    gallery: [
+      '/src/assets/images/flower_and_feeling/photo_08.jpg',
+      '/src/assets/images/flower_and_feeling/photo_02.jpg',
+      '/src/assets/images/flower_and_feeling/photo_07.jpg',
+      '/src/assets/images/flower_and_feeling/photo_05.jpg',
+      '/src/assets/images/flower_and_feeling/photo_06.jpg',
+      '/src/assets/images/flower_and_feeling/photo_01.jpg',
+      '/src/assets/images/flower_and_feeling/photo_03.jpg',
+      '/src/assets/images/flower_and_feeling/photo_04.jpg',
+      '/src/assets/images/flower_and_feeling/photo_09.jpg',
+      '/src/assets/images/flower_and_feeling/photo_10.jpg',
+      '/src/assets/images/flower_and_feeling/photo_11.jpg',
+      '/src/assets/images/flower_and_feeling/photo_12.jpg',
+      '/src/assets/images/flower_and_feeling/photo_13.jpg',
+      '/src/assets/images/flower_and_feeling/photo_14.jpg',
+      '/src/assets/images/flower_and_feeling/photo_15.jpg',
+      '/src/assets/images/flower_and_feeling/photo_16.jpg',
+      '/src/assets/images/flower_and_feeling/photo_17.jpg',
+      '/src/assets/images/flower_and_feeling/photo_18.jpg',
+    ],
+    content: [
+      'วันที่ 18 มีนาคม 2568 ศาสตราจารย์ ดร.คณิต เขียววิชัย คณบดีคณะศึกษาศาสตร์ มอบหมายให้ อาจารย์เอกชัย ภูมิระรื่น รองคณบดีฝ่ายกิจการพิเศษและพันธกิจเพื่อสังคม เป็นประธานในพิธีเปิดนิทรรศการ “Flower and Feeling” จัดโดยนักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร ณ ห้อง ศษ2102 อาคารศึกษาศาสตร์ 2 คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร โดยมีคณาจารย์และนักศึกษาเข้าร่วมงานอย่างพร้อมเพรียงและอบอุ่น',
+      'โดยนิทรรศการ “Flower and Feeling” เกิดจากแรงบันดาลใจในการเชื่อมโยงความงามของดอกไม้กับความรู้สึกและวัฒนธรรมมนุษย์ การถ่ายทอดผ่านดอกไม้ในชีวิตเราผ่านหลากหลายมิติ สร้างพื้นที่ให้ผู้เข้าชมได้สัมผัสและสร้างความรู้สึกใหม่ ๆ ประกอบกับการส่งเสริมความเข้าใจในความสำคัญของดอกไม้ในมิติทางศิลปะและสังคม',
+      'นิทรรศการนี้เปิดประสบการณ์ที่ชวนให้ทุกคนกลับมาสำรวจความรู้สึกและความสัมพันธ์ที่มีต่อสิ่งรอบตัวในชีวิตประจำวัน ผ่านการบูรณาการเทคโนโลยีสื่อสร้างสรรค์ การจัดแสดงเชิงปฏิสัมพันธ์ (Interactive Exhibition) และการออกแบบประสบการณ์การเรียนรู้ โดยผลงานจัดแสดงทุกชิ้นเป็นผลผลิตจากการเรียนรู้เชิงปฏิบัติการของนักศึกษาชั้นปีที่ 3 ภาควิชาเทคโนโลยีการศึกษา'
+    ],
+    featured: true
+  },
+  {
+    id: 'news-4spb-symposium-2026',
+    title: 'ภาควิชาเทคโนโลยีการศึกษา ม.ศิลปากร ร่วมออกบูธจัดแสดงและนำเสนอผลงาน ในงาน 4SPB Symposium 2026 ณ รร.กรรณสูตศึกษาลัย จ.สุพรรณบุรี',
+    category: 'Events',
+    date: '31 ส.ค. 2569',
+    summary: 'ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร ร่วมออกบูธจัดแสดงและนำเสนอผลงานด้านเทคโนโลยีการศึกษา ในงาน 4SPB Symposium 2026 ภายใต้แนวคิด “ศาสตร์ศิลป์วิชาการ สืบสาน สร้างสรรค์ สพม.สุพรรณบุรี” ณ โรงเรียนกรรณสูตศึกษาลัย จังหวัดสุพรรณบุรี',
+    location: 'โรงเรียนกรรณสูตศึกษาลัย จังหวัดสุพรรณบุรี',
+    organizer: 'ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร',
+    image: '/src/assets/images/symposium_4spb_booth_1791379580681.jpg',
+    content: [
+      'วันจันทร์ที่ 31 สิงหาคม 2569 ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร ร่วม ออกบูธจัดแสดงและนำเสนอผลงานด้านเทคโนโลยีการศึกษา ในงาน 4SPB Symposium 2026 ภายใต้แนวคิด “ศาสตร์ศิลป์วิชาการ สืบสาน สร้างสรรค์ สพม.สุพรรณบุรี” ณ โรงเรียนกรรณสูตศึกษาลัย จังหวัดสุพรรณบุรี',
+      'ภายในบูธพบกับการนำเสนอผลงานและกิจกรรมที่สะท้อนการเรียนรู้ด้าน เทคโนโลยี สื่อ นวัตกรรม และการออกแบบเพื่อการศึกษา พร้อมพูดคุยและทำความรู้จักกับการเรียนการสอนของภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ มหาวิทยาลัยศิลปากร',
+      'กิจกรรมดังกล่าวเปิดโอกาสให้นักเรียน คุณครู ผู้บริหารสถานศึกษา และบุคลากรทางการศึกษาในเขตพื้นที่จังหวัดสุพรรณบุรีและใกล้เคียง ได้ทดลองใช้งานสื่อการเรียนรู้ดิจิทัล เทคโนโลยีเสมือนจริง และระบบการจัดการเรียนรู้ที่พัฒนาโดยคณาจารย์และนักศึกษาของภาควิชาฯ'
+    ],
+    featured: true
+  },
   {
     id: 'news-1',
     title: 'เปิดรับสมัครนักศึกษาใหม่ระดับปริญญาตรี TCAS ประจำปีการศึกษา สาขาเทคโนโลยีการศึกษา ม.ศิลปากร',
@@ -1134,7 +1357,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'สายคล้องคอและกระเป๋ากล้อง'
     ],
     maxDays: 3,
-    image: '/src/assets/images/hero_silpakorn_edtech_1790939637201.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_02.jpg',
     condition: 'Excellent',
     suitableFor: 'ถ่ายภาพนิ่งสื่อการสอน ถ่ายวิดีโอกิจกรรมภาควิชา และโครงงานรายวิชา'
   },
@@ -1190,7 +1413,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'กล่องเก็บอุปกรณ์'
     ],
     maxDays: 5,
-    image: '/src/assets/images/student_work_interactive_vr_1790939657670.jpg',
+    image: '/src/assets/images/infocomm/infocomm_expo_1.jpg',
     condition: 'Excellent',
     suitableFor: 'การพัฒนาระบบฝึกอบรมเสมือนจริง วิทยานิพนธ์ ป.โท/ป.เอก ด้าน Immersive Learning'
   },
@@ -1218,7 +1441,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'MicroSD Card 128GB High Speed'
     ],
     maxDays: 3,
-    image: '/src/assets/images/student_work_interactive_vr_1790939657670.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_08.jpg',
     condition: 'Excellent',
     suitableFor: 'การจัดทำสื่อ Virtual Tour แหล่งเรียนรู้ประวัติศาสตร์ นิทรรศการเสมือน และสื่อ 360 องศา'
   },
@@ -1246,7 +1469,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'สายเชื่อมต่อสำหรับกล้องและสมาร์ทโฟนครบเซ็ต'
     ],
     maxDays: 3,
-    image: '/src/assets/images/learning_hub_course_thumb_1790939670511.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_11.jpg',
     condition: 'Excellent',
     suitableFor: 'สัมภาษณ์ผู้เชี่ยวชาญ ผลิตบทเรียนออนไลน์ อัดพอดแคสต์การศึกษา และถ่ายทำสารคดี'
   },
@@ -1273,7 +1496,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'สายสัญญาณ Neutrik XLR เกรดสตูดิโอ 3 เมตร'
     ],
     maxDays: 3,
-    image: '/src/assets/images/learning_hub_course_thumb_1790939670511.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_16.jpg',
     condition: 'Excellent',
     suitableFor: 'ลงเสียงบทเรียนอีเลิร์นนิง บันทึกรายการพอดแคสต์ และผลิตเสียงบรรยายประกอบสื่อ'
   },
@@ -1300,7 +1523,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'กระเป๋าใส่ชุดไฟพกพา'
     ],
     maxDays: 3,
-    image: '/src/assets/images/hero_silpakorn_edtech_1790939637201.jpg',
+    image: '/src/assets/images/symposium_4spb_booth_1791379580681.jpg',
     condition: 'Excellent',
     suitableFor: 'จัดแสงถ่ายทำสื่อการสอนในสตูดิโอ ถ่ายทำหน้า Green Screen และบันทึกการสัมมนา'
   },
@@ -1328,7 +1551,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'เคสพกพาแบบแข็ง'
     ],
     maxDays: 3,
-    image: '/src/assets/images/research_edtech_lab_1790939681860.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_12.jpg',
     condition: 'Excellent',
     suitableFor: 'ถ่ายทำวิดีโอเคลื่อนไหว ติดตามตัวผู้สอนในห้องเรียน และถ่ายทำสื่อเชิงทดลอง'
   },
@@ -1355,7 +1578,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'กระเป๋าบุกำมะหยี่กันกระแทก'
     ],
     maxDays: 7,
-    image: '/src/assets/images/learning_hub_course_thumb_1790939670511.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_05.jpg',
     condition: 'Excellent',
     suitableFor: 'สเก็ตช์ภาพ Storyboard วาดภาพประกอบบทเรียน ออกแบบ UI/UX สื่อ และจดบันทึกการเรียน'
   },
@@ -1382,7 +1605,7 @@ export const EQUIPMENT_DATA: EquipmentItem[] = [
       'ขาตั้งปรับระดับองศาได้'
     ],
     maxDays: 7,
-    image: '/src/assets/images/student_work_interactive_vr_1790939657670.jpg',
+    image: '/src/assets/images/flower_and_feeling/photo_07.jpg',
     condition: 'Excellent',
     suitableFor: 'สร้างแอนิเมชัน 2D/3D ออกแบบตัวละครสื่อการสอน และวาดภาพประกอบแบบมืออาชีพ'
   }
@@ -1402,7 +1625,7 @@ export const STUDIO_ROOMS_DATA: StudioRoom[] = [
       'ระบบ Teleprompter บอกบทสำหรับผู้สอน',
       'ระบบปรับอากาศและเก็บเสียงมาตรฐาน -45dB'
     ],
-    image: '/src/assets/images/hero_silpakorn_edtech_1790939637201.jpg',
+    image: '/src/assets/images/wai_kru_2569/photo_01.jpg',
     timeSlots: ['09:00 - 12:00 น.', '13:00 - 16:00 น.', '16:30 - 19:30 น. (กรณีพิเศษ)']
   },
   {
@@ -1418,7 +1641,7 @@ export const STUDIO_ROOMS_DATA: StudioRoom[] = [
       'ระบบเชื่อมต่อ Bluetooth สำหรับโฟนอินผู้เชี่ยวชาญ',
       'คอมพิวเตอร์ Mac Studio สำหรับบันทึกและตัดต่อเสียง'
     ],
-    image: '/src/assets/images/learning_hub_course_thumb_1790939670511.jpg',
+    image: '/src/assets/images/infocomm/infocomm_expo_2.jpg',
     timeSlots: ['09:00 - 11:00 น.', '11:00 - 13:00 น.', '13:30 - 15:30 น.', '15:30 - 17:30 น.']
   },
   {

@@ -30,10 +30,14 @@ export const FacultySection: React.FC<FacultySectionProps> = ({ onSelectFaculty 
   }, [searchQuery, selectedRank]);
 
   return (
-    <section id="faculty" className="py-20 relative bg-white dark:bg-[#06121E] transition-colors duration-200 overflow-hidden">
+    <section id="faculty" className="py-24 relative bg-gradient-to-b from-[#040E19] via-[#081B2E] to-[#05121F] text-white transition-colors duration-300 overflow-hidden">
       
+      {/* Decorative dot pattern */}
+      <div className="absolute inset-0 bg-pattern-dots opacity-20 pointer-events-none" />
+
       {/* Soft Ambient Light for section depth */}
-      <div className="absolute top-20 left-1/3 w-[600px] h-[400px] bg-gradient-to-tr from-cyan-500/5 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-20 left-1/3 w-[600px] h-[400px] bg-gradient-to-tr from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-gradient-to-tl from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -151,6 +155,8 @@ export const FacultySection: React.FC<FacultySectionProps> = ({ onSelectFaculty 
                           onError={(e) => {
                             if (member.fallbackImageUrl && e.currentTarget.src !== member.fallbackImageUrl) {
                               e.currentTarget.src = member.fallbackImageUrl;
+                            } else {
+                              e.currentTarget.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230F2942"/><circle cx="100" cy="75" r="38" fill="%2306B6D4" opacity="0.4"/><text x="100" y="85" font-family="sans-serif" font-size="24" font-weight="bold" fill="%23FFFFFF" text-anchor="middle">${encodeURIComponent(member.nameTh.slice(0, 3))}</text><text x="100" y="160" font-family="sans-serif" font-size="12" fill="%2394A3B8" text-anchor="middle">อาจารย์ประจำภาควิชา</text></svg>`;
                             }
                           }}
                           className="w-full h-full object-cover object-center"

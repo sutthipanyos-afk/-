@@ -1,12 +1,70 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles, Layers, Sliders, Play, CheckCircle2, ChevronRight, GraduationCap } from 'lucide-react';
+import { ArrowRight, Sparkles, Layers, Sliders, Play, CheckCircle2, ChevronRight, GraduationCap, Camera, Image as ImageIcon } from 'lucide-react';
 
 interface HeroProps {
   onExplorePrograms: () => void;
   onOpenLearningHub: () => void;
 }
 
+export interface HeroCoverOption {
+  id: string;
+  name: string;
+  shortName: string;
+  src: string;
+  caption: string;
+}
+
+export const HERO_COVER_OPTIONS: HeroCoverOption[] = [
+  {
+    id: 'sanam-chandra-hd',
+    name: 'ม.ศิลปากร พระราชวังสนามจันทร์ (คมชัดระดับ HD อิงสถานที่จริง)',
+    shortName: 'ม.ศิลปากร HD (สถานที่จริง)',
+    src: '/src/assets/images/silpakorn_campus_hd_1791887871176.jpg',
+    caption: 'ภาพทัศนียภาพพระราชวังสนามจันทร์ สระแก้ว และบรรยากาศมหาวิทยาลัยศิลปากร คมชัดระดับ HD',
+  },
+  {
+    id: 'edtech-building-hd',
+    name: 'อาคารคณะศึกษาศาสตร์ & สตูดิโอเทคโนโลยีการศึกษา (HD)',
+    shortName: 'คณะศึกษาศาสตร์ (HD)',
+    src: '/src/assets/images/silpakorn_edtech_building_1791887900456.jpg',
+    caption: 'อาคารคณะศึกษาศาสตร์และศูนย์นวัตกรรมเทคโนโลยีการศึกษา มหาวิทยาลัยศิลปากร คมชัดระดับ HD',
+  },
+  {
+    id: 'edtech-su-logo',
+    name: 'ตราสัญลักษณ์ภาควิชาเทคโนโลยีการศึกษา ศิลปากร',
+    shortName: 'โลโก้ภาควิชาฯ',
+    src: '/src/assets/images/edtech_su_logo_cover_1791887375119.jpg',
+    caption: 'ตราสัญลักษณ์และอัตลักษณ์ภาควิชาเทคโนโลยีการศึกษา คณะศึกษาศาสตร์ ม.ศิลปากร',
+  },
+  {
+    id: 'sanam-chandra-campus',
+    name: 'พระราชวังสนามจันทร์ นครปฐม',
+    shortName: 'พระราชวังสนามจันทร์',
+    src: '/src/assets/images/sanam_chandra_campus_1791887374983.jpg',
+    caption: 'ภาพทัศนียภาพมหาวิทยาลัยศิลปากร วิทยาเขตพระราชวังสนามจันทร์ จ.นครปฐม',
+  },
+  {
+    id: 'wai-kru',
+    name: 'พิธีไหว้ครู ภาควิชาฯ 2569 (ภาพจริง)',
+    shortName: 'พิธีไหว้ครู 2569',
+    src: '/src/assets/images/wai_kru_2569/photo_01.jpg',
+    caption: 'พิธีไหว้ครู ภาควิชาเทคโนโลยีการศึกษา ณ อาคารโสมสวลี พระราชวังสนามจันทร์',
+  },
+  {
+    id: 'symposium',
+    name: 'นวัตกรรมและผลงานวิชาการ 4SPB',
+    shortName: 'งานวิชาการ 4SPB',
+    src: '/src/assets/images/symposium_4spb_booth_1791379580681.jpg',
+    caption: 'บูธจัดแสดงผลงานนวัตกรรมสื่อการศึกษา ณ งานสัมมนาทางวิชาการ',
+  },
+];
+
 export const Hero: React.FC<HeroProps> = ({ onExplorePrograms, onOpenLearningHub }) => {
+  // Hero Cover Image State (ภาพปกเว็บแบบอ่อนๆ มีความเบลอ ตัวหนังสืออ่านง่าย ไม่กลืนกัน)
+  const [selectedCoverIndex, setSelectedCoverIndex] = useState<number>(0);
+  const [opacityLevel, setOpacityLevel] = useState<number>(28); // Default soft 28%
+  const [blurLevel, setBlurLevel] = useState<number>(8); // Default 8px blur (ให้มีความเบลอ)
+
   // Interactive Simulator State in Hero
   const [activeTab, setActiveTab] = useState<'isd' | 'techStack' | 'pedagogy'>('isd');
   
@@ -30,31 +88,55 @@ export const Hero: React.FC<HeroProps> = ({ onExplorePrograms, onOpenLearningHub
     Math.round((interactivity * 0.45) + (cognitivePacing * 0.25) + (mediaRichness * 0.3))
   );
 
+  const activeCover = HERO_COVER_OPTIONS[selectedCoverIndex] || HERO_COVER_OPTIONS[0];
+
   return (
-    <section className="relative pt-28 pb-20 md:pt-32 md:pb-28 bg-gradient-to-b from-[#05111D] via-[#091D32] to-[#061423] text-white overflow-hidden">
+    <section className="relative pt-28 pb-20 md:pt-32 md:pb-28 bg-gradient-to-b from-[#040D1A] via-[#07192C] to-[#05111D] text-white overflow-hidden">
       
       {/* -------------------------------------------------------------
-          1. Soft Multi-Layered Ambient Light & Radial Glows
-          Amber warmth + Cyan-Mint glow for high-end academic depth
+          1. Hero Cover Image Backdrop (ภาพปกเว็บแบบอ่อนๆ มีความเบลอ ตัวหนังสืออ่านง่าย ไม่กลืนกัน)
           ------------------------------------------------------------- */}
-      {/* Subtle background tech matrix */}
-      <div 
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
-          backgroundSize: '40px 40px',
-        }}
-      />
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+        {/* Cover Photo with Blur Effect (ให้มีความเบลอ) */}
+        <img
+          src={activeCover.src}
+          alt={activeCover.name}
+          className="w-full h-full object-cover object-center transition-all duration-700 ease-in-out scale-110 transform"
+          style={{
+            opacity: opacityLevel / 100,
+            filter: `blur(${blurLevel}px) brightness(0.8) contrast(1.06)`,
+          }}
+        />
 
+        {/* Multi-layered Dark Scrim Gradients for Absolute Text Readability */}
+        {/* Horizontal Gradient: strong contrast on the left side where headings sit */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040D1A] via-[#040D1A]/90 sm:via-[#040D1A]/80 to-[#061423]/65" />
+
+        {/* Vertical Gradient: seamless top-to-bottom flow (ไล่เฉดบนล่าง) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040D1A]/95 via-[#081B30]/65 to-[#05111D]" />
+
+        {/* Subtle radial tech dot matrix */}
+        <div 
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)`,
+            backgroundSize: '36px 36px',
+          }}
+        />
+      </div>
+
+      {/* -------------------------------------------------------------
+          2. Soft Multi-Layered Ambient Light & Radial Glows
+          ------------------------------------------------------------- */}
       {/* Soft Ambient Light 1: Warm Amber / Gold glow for academic heritage */}
       <div 
-        className="absolute -top-24 right-1/4 w-[520px] h-[520px] bg-gradient-to-br from-amber-400/12 via-amber-500/5 to-transparent rounded-full blur-[110px] pointer-events-none animate-amber-slow"
+        className="absolute -top-24 right-1/4 w-[520px] h-[520px] bg-gradient-to-br from-amber-400/10 via-amber-500/5 to-transparent rounded-full blur-[110px] pointer-events-none animate-amber-slow"
         aria-hidden="true"
       />
 
       {/* Soft Ambient Light 2: Digital Cyan / Sky glow for innovation */}
       <div 
-        className="absolute top-1/4 -right-16 w-[620px] h-[620px] bg-gradient-to-bl from-cyan-500/16 via-blue-600/10 to-transparent rounded-full blur-[130px] pointer-events-none animate-ambient-slow"
+        className="absolute top-1/4 -right-16 w-[620px] h-[620px] bg-gradient-to-bl from-cyan-500/12 via-blue-600/8 to-transparent rounded-full blur-[130px] pointer-events-none animate-ambient-slow"
         aria-hidden="true"
       />
 
@@ -79,7 +161,7 @@ export const Hero: React.FC<HeroProps> = ({ onExplorePrograms, onOpenLearningHub
           <div className="lg:col-span-6 space-y-6">
             
             {/* Top Quiet Sub-kicker with soft mint dot */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-md text-xs font-medium text-slate-200 shadow-sm">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#05111D]/80 border border-white/15 backdrop-blur-md text-xs font-medium text-slate-200 shadow-md">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]" />
@@ -89,13 +171,13 @@ export const Hero: React.FC<HeroProps> = ({ onExplorePrograms, onOpenLearningHub
 
             {/* Prominent Header with Blue -> Cyan -> Mint Green Gradient on accent */}
             <div className="space-y-3">
-              <h1 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.18] font-display text-balance">
+              <h1 className="text-3xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.18] font-display text-balance drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
                 สาขาเทคโนโลยีการศึกษา
                 <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-300 bg-clip-text text-transparent mt-1.5 drop-shadow-sm">
                   ศิลปากร พระราชวังสนามจันทร์
                 </span>
               </h1>
-              <p className="text-base sm:text-lg text-slate-300/90 font-light leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-slate-100 font-normal leading-relaxed max-w-xl drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
                 บูรณาการศาสตร์การศึกษา การออกแบบสื่อเชิงสร้างสรรค์ และเทคโนโลยีดิจิทัลขั้นสูง เพื่อสร้างสรรค์นักปฏิบัติการและผู้นำการเปลี่ยนแปลงแห่งวงการเรียนรู้ระดับสากล
               </p>
             </div>
@@ -121,23 +203,133 @@ export const Hero: React.FC<HeroProps> = ({ onExplorePrograms, onOpenLearningHub
 
             {/* Editorial Numbers Row with Slender Glass Tiles */}
             <div className="grid grid-cols-3 gap-3.5 pt-6 border-t border-white/10">
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono-numbers">
+              <div className="p-3.5 rounded-xl bg-[#061423]/75 border border-white/10 backdrop-blur-md shadow-md">
+                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono-numbers drop-shadow-sm">
                   45+
                 </div>
-                <div className="text-xs text-slate-400 mt-1">ปีแห่งการบุกเบิก</div>
+                <div className="text-xs text-slate-300 mt-1 font-medium">ปีแห่งการบุกเบิก</div>
               </div>
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl font-extrabold text-cyan-300 font-mono-numbers">
+              <div className="p-3.5 rounded-xl bg-[#061423]/75 border border-white/10 backdrop-blur-md shadow-md">
+                <div className="text-2xl sm:text-3xl font-extrabold text-cyan-300 font-mono-numbers drop-shadow-sm">
                   100%
                 </div>
-                <div className="text-xs text-slate-400 mt-1">คณาจารย์ระดับปริญญาเอก</div>
+                <div className="text-xs text-slate-300 mt-1 font-medium">คณาจารย์ระดับปริญญาเอก</div>
+                {/* Faculty avatars row (7 distinct portraits) */}
+                <div className="flex items-center -space-x-1.5 mt-2">
+                  {[
+                    { id: 'sitthichai', name: 'ผศ.ดร.สิทธิชัย ลายเสมา', img: '/src/assets/images/faculty/sitthichai.jpg' },
+                    { id: 'siwanit', name: 'รศ.ดร.ศิวนิต อรรถวุฒิกุล', img: '/src/assets/images/faculty/siwanit.jpg' },
+                    { id: 'thapanee', name: 'รศ.ดร.ฐาปนีย์ ธรรมเมธา', img: '/src/assets/images/faculty/thapanee.jpg' },
+                    { id: 'anirut', name: 'รศ.ดร.อนิรุทธ์ สติมั่น', img: '/src/assets/images/faculty/anirut.jpg' },
+                    { id: 'nammon', name: 'รศ.ดร.น้ำมนต์ เรืองฤทธิ์', img: '/src/assets/images/faculty/nammon.jpg' },
+                    { id: 'ekanarin', name: 'รศ.ดร.เอกนฤน บางท่าไม้', img: '/src/assets/images/faculty/ekanarin.jpg' },
+                    { id: 'worawut', name: 'ผศ.ดร.วรวุฒิ มั่นสุขผล', img: '/src/assets/images/faculty/worawut.jpg' },
+                  ].map((fac) => (
+                    <img
+                      key={fac.id}
+                      src={fac.img}
+                      alt={fac.name}
+                      title={fac.name}
+                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-cover ring-1.5 ring-[#0A1E33] shadow-sm hover:scale-125 hover:z-10 transition-transform cursor-pointer"
+                      onClick={() => {
+                        const el = document.getElementById('faculty');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-300 font-mono-numbers">
+              <div className="p-3.5 rounded-xl bg-[#061423]/75 border border-white/10 backdrop-blur-md shadow-md">
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-300 font-mono-numbers drop-shadow-sm">
                   4
                 </div>
-                <div className="text-xs text-slate-400 mt-1">ปริญญาตรี โท เอก</div>
+                <div className="text-xs text-slate-300 mt-1 font-medium">ปริญญาตรี โท เอก</div>
+              </div>
+            </div>
+
+            {/* Subtle Interactive Cover Photo Switcher, Blur Controller & Softness */}
+            <div className="p-3 rounded-xl bg-[#061423]/80 border border-white/10 backdrop-blur-md space-y-2 shadow-lg">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <ImageIcon className="w-3.5 h-3.5 text-cyan-400" />
+                  <span className="font-semibold text-slate-200">ภาพปกเว็บ (Cover Photo):</span>
+                </div>
+                
+                {/* Controllers: Blur & Opacity ("ให้มีความเบลอ" และ "อ่อนๆ") */}
+                <div className="flex flex-wrap items-center gap-2 text-[11px]">
+                  {/* Blur Controller */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-400 hidden sm:inline">ความเบลอ:</span>
+                    {[
+                      { label: 'เบลอน้อย', val: 4 },
+                      { label: 'เบลอนุ่มนวล', val: 8 },
+                      { label: 'เบลอมาก', val: 14 },
+                      { label: 'ไม่เบลอ', val: 0 },
+                    ].map((b) => (
+                      <button
+                        key={b.val}
+                        onClick={() => setBlurLevel(b.val)}
+                        className={`px-1.5 py-0.5 rounded transition-colors ${
+                          blurLevel === b.val
+                            ? 'bg-emerald-500/30 text-emerald-200 font-medium border border-emerald-400/40'
+                            : 'text-slate-400 hover:text-slate-200 bg-white/[0.04]'
+                        }`}
+                        title={`ปรับระดับความเบลอภาพ ${b.val}px`}
+                      >
+                        {b.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Opacity Softness Selector ("อ่อนๆ") */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-400 hidden sm:inline ml-1">ความเข้ม:</span>
+                    {[
+                      { label: 'อ่อนๆ', val: 20 },
+                      { label: 'พอดี', val: 28 },
+                      { label: 'ชัดขึ้น', val: 40 },
+                    ].map((lvl) => (
+                      <button
+                        key={lvl.val}
+                        onClick={() => setOpacityLevel(lvl.val)}
+                        className={`px-1.5 py-0.5 rounded transition-colors ${
+                          opacityLevel === lvl.val
+                            ? 'bg-cyan-500/30 text-cyan-200 font-medium border border-cyan-400/40'
+                            : 'text-slate-400 hover:text-slate-200 bg-white/[0.04]'
+                        }`}
+                        title={`ปรับความเข้มแสงพื้นหลัง ${lvl.val}%`}
+                      >
+                        {lvl.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Cover Options Buttons */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 pt-1">
+                {HERO_COVER_OPTIONS.map((cov, idx) => {
+                  const isSelected = selectedCoverIndex === idx;
+                  return (
+                    <button
+                      key={cov.id}
+                      onClick={() => setSelectedCoverIndex(idx)}
+                      className={`px-2 py-1.5 rounded-lg text-left text-[11px] transition-all flex items-center gap-1.5 ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-blue-600/50 to-cyan-600/40 border border-cyan-400/60 text-white font-medium shadow-sm'
+                          : 'bg-white/[0.03] border border-white/5 text-slate-300 hover:text-white hover:bg-white/[0.07]'
+                      }`}
+                      title={cov.caption}
+                    >
+                      <Camera className={`w-3 h-3 shrink-0 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
+                      <span className="truncate">{cov.shortName}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="text-[10px] text-slate-400 truncate pt-0.5">
+                📍 {activeCover.caption}
               </div>
             </div>
           </div>

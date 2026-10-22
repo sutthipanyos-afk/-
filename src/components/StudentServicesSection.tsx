@@ -73,11 +73,14 @@ export const StudentServicesSection: React.FC<StudentServicesSectionProps> = ({
   }, [selectedCategory, searchQuery]);
 
   return (
-    <section id="student-services" className="py-20 relative bg-white dark:bg-[#06121E] transition-colors duration-200 overflow-hidden">
+    <section id="student-services" className="py-24 relative bg-gradient-to-b from-[#F0F4F8] via-[#E6EDF5] to-[#F1F5F9] dark:from-[#05121F] dark:via-[#091D33] dark:to-[#05111E] transition-colors duration-300 overflow-hidden">
       
+      {/* Decorative dot matrix overlay */}
+      <div className="absolute inset-0 bg-pattern-dots opacity-20 pointer-events-none" />
+
       {/* Soft Ambient Light Cones for Service Depth */}
-      <div className="absolute top-1/4 left-10 w-[600px] h-[500px] bg-gradient-to-tr from-cyan-500/6 via-blue-500/4 to-transparent rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[500px] h-[400px] bg-gradient-to-bl from-emerald-500/5 via-teal-500/4 to-transparent rounded-full blur-[110px] pointer-events-none" />
+      <div className="absolute top-1/4 left-10 w-[600px] h-[500px] bg-gradient-to-tr from-cyan-500/8 via-blue-500/4 to-transparent rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[400px] bg-gradient-to-bl from-amber-500/8 via-emerald-500/4 to-transparent rounded-full blur-[110px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         

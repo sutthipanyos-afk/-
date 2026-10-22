@@ -35,10 +35,14 @@ export const LearningHubSection: React.FC<LearningHubSectionProps> = ({
   }, [searchQuery, selectedLevel]);
 
   return (
-    <section id="learning-hub" className="py-20 relative bg-[#F8FAFC] dark:bg-[#040D17] transition-colors duration-200 overflow-hidden">
+    <section id="learning-hub" className="py-24 relative bg-gradient-to-b from-[#05111E] via-[#091D33] to-[#040E1A] text-white transition-colors duration-300 overflow-hidden">
       
+      {/* Decorative dot matrix overlay */}
+      <div className="absolute inset-0 bg-pattern-dots opacity-20 pointer-events-none" />
+
       {/* Soft Ambient Light for Hub */}
-      <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-gradient-to-r from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-gradient-to-tl from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
